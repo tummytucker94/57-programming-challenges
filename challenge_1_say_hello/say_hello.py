@@ -74,4 +74,4 @@ if __name__ == "__main__":
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
     
-    print(f"Logged '{name}' with timestamp {timestamp} to {file_path}")
+    print(f"Logged to {file_path}")
