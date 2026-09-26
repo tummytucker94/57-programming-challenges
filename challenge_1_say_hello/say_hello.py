@@ -32,11 +32,9 @@ pokemon_gen1 = [
 def sayHello(name):
     return f"Hello,{name}. I choose you!"
 
-if __name__ == "__main__":
-
-
+def main():
     file_path = Path("users_log.json")
-    
+        
     # 1. Get input from the user
     # name = input("Enter your name: ")
 
@@ -75,3 +73,7 @@ if __name__ == "__main__":
         json.dump(data, f, indent=2)
     
     print(f"Logged to {file_path}")
+
+if __name__ == "__main__":
+    main()
+    
