@@ -33,9 +33,11 @@ def sayHello(name):
     return f"Hello,{name}. I choose you!"
 
 def main():
+
+    file_path = Path("pokemon_log.json")
     
     for pokemon in pokemon_gen1:
-        file_path = Path("users_log.json")
+        
                     
         # 1. Get input from the user
         # name = input("Enter your name: ")
