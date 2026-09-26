@@ -33,46 +33,47 @@ def sayHello(name):
     return f"Hello,{name}. I choose you!"
 
 def main():
-    file_path = Path("users_log.json")
-        
-    # 1. Get input from the user
-    # name = input("Enter your name: ")
-
-    start_time_iso = datetime.now(timezone.utc).isoformat()
-    start_perf = time.perf_counter()
-
+    
     for pokemon in pokemon_gen1:
+        file_path = Path("users_log.json")
+                    
+        # 1. Get input from the user
+        # name = input("Enter your name: ")
+    
+        start_time_iso = datetime.now(timezone.utc).isoformat()
+        start_perf = time.perf_counter()
+
         sayHello(pokemon)
-    
-    
-    end_perf = time.perf_counter()
-    end_time_iso = datetime.now(timezone.utc).isoformat()
-    duration_seconds = round(end_perf - start_perf, 6)  
-    
-    # 3. Create the data record
-    new_entry = {
-        "name": pokemon,
-        "execution_metrics":{
-            "start_time_utc": start_time_iso,
-            "end_time_utc": end_time_iso,
-            "duration_seconds": duration_seconds
+
+        end_perf = time.perf_counter()
+        end_time_iso = datetime.now(timezone.utc).isoformat()
+        duration_seconds = round(end_perf - start_perf, 6)
+
+        # 3. Create the data record
+        new_entry = {
+            "name": pokemon,
+            "execution_metrics":{
+                "start_time_utc": start_time_iso,
+                "end_time_utc": end_time_iso,
+                "duration_seconds": duration_seconds
+            }
         }
-    }
+        
+        # 4. Read existing data if the file exists, otherwise initialize an empty list
+        if file_path.exists() and file_path.stat().st_size > 0:
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        else:
+            data = []
+        
+        # 5. Append the new entry and write back to the JSON file
+        data.append(new_entry)
+        
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+        
+        print(f"Logged to {file_path}") 
     
-    # 4. Read existing data if the file exists, otherwise initialize an empty list
-    if file_path.exists() and file_path.stat().st_size > 0:
-        with open(file_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    else:
-        data = []
-    
-    # 5. Append the new entry and write back to the JSON file
-    data.append(new_entry)
-    
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
-    
-    print(f"Logged to {file_path}")
 
 if __name__ == "__main__":
     main()
